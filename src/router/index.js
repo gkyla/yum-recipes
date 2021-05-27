@@ -15,6 +15,44 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
+  {
+    path: '/explore',
+    name: 'Explore',
+    component: () => import('../views/explore/Explore.vue'),
+    children: [
+      {
+        path: 'list',
+        component: () => import('../views/explore/ExploreAll.vue'),
+      },
+      {
+        name: 'Categories',
+        path: 'categories/:type/:page',
+        component: () => import('../views/explore/Categories.vue'),
+      },
+      {
+        path: 'ingredients/:type/:page',
+        component: () => import('../views/explore/Ingredients.vue'),
+      },
+      {
+        path: 'areas/:type/:page',
+        component: () => import('../views/explore/Areas.vue'),
+      },
+      {
+        name: 'ExploreSearch',
+        path: 'search/:type/:page',
+        component: () => import('../views/explore/Search.vue'),
+      },
+      {
+        path: 'first-letter/:type/:page',
+        component: () => import('../views/explore/FirstLetter.vue'),
+      },
+    ],
+  },
+  {
+    path: '/details/:id',
+    name: 'Detail',
+    component: () => import(/* webpackChunkName: "details" */ '../views/Detail.vue'),
+  },
 ];
 
 const router = createRouter({

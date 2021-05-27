@@ -1,0 +1,20 @@
+{
+   // Reset local js formatter
+   // use eslint formatter instead vetur
+   "[javascript]": {
+      "editor.defaultFormatter": null
+   },
+   "vetur.format.defaultFormatter.js": "none",
+
+   // Change Html formatter
+   "vetur.format.defaultFormatter.html": "prettier",
+
+   // Live sass compiler extension local settings
+   "liveSassCompile.settings.formats": [
+      {
+         "format": "expanded",
+         "extensionName": ".css",
+         "savePath": "/src/styles"
+      }
+   ]
+}
