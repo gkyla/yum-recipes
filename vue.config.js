@@ -13,4 +13,10 @@ module.exports = {
       chunks: ['chunk-vendors', 'chunk-common', 'index'],
     },
   },
+  pwa: {
+    themeColor: '#393e46',
+    msTileColor: '#393e46',
+    appleMobileWebAppCapable: 'yes',
+    appleMobileWebAppStatusBarStyle: 'black',
+  },
 };
