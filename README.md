@@ -1,4 +1,4 @@
-# fun-recipes
+# yum-recipes
 
 ## Project setup
 ```
