@@ -53,9 +53,9 @@ export default createStore({
       }
       const numbers = [generateRandomNumber(countryListLength), generateRandomNumber(countryListLength), generateRandomNumber(countryListLength)];
       const requests = numbers.map((num) => axios.get(API_CONFIG.filterByArea(countryList.meals[num].strArea)));
-      const data = await Promise.all(requests);
+      const response = await Promise.all(requests);
 
-      const response = data.map((axiosRes, index) => {
+      const data = response.map((axiosRes, index) => {
         const { data: countryMeals } = axiosRes;
         return {
           contry: countryList.meals[numbers[index]].strArea,
@@ -63,7 +63,7 @@ export default createStore({
         };
       });
 
-      commit('updateRecipesAroundTheWorld', response);
+      commit('updateRecipesAroundTheWorld', data);
     },
 
     async fetchDefaultRecipes({ commit }) {
@@ -82,14 +82,3 @@ export default createStore({
     search,
   },
 });
-// const requests = numbers.map((num) => {
-//   const { data: countryMeals } = await axios.get(API_CONFIG.filterByArea(countryList.meals[num].strArea));
-
-//   console.log('terawait');
-//   /* Create new object with the country name inside it  */
-//   payload.push({
-//     contry: countryList.meals[num].strArea,
-//     meal: countryMeals.meals[generateRandomNumber(countryMeals.meals.length - 1)],
-//   });
-
-// });
