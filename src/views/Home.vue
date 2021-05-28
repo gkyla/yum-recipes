@@ -56,7 +56,7 @@
     <section id="food-area-insight" class="bg-light shadow-sm mt-5 p-4">
       <div class="container p-0 p-md-3">
         <h1 class="fs-3 mb-4">Recipes Around the World</h1>
-        <div class="row d-flex justify-content-center g-4" :key="aroundResolve">
+        <div class="row d-flex justify-content-center g-4">
           <div
             v-for="meal in recipesAroundTheWorld"
             class="col-sm-12 col-md-4"
@@ -83,7 +83,7 @@
 import CardPreview from '@/components/CardPreview.vue';
 
 import {
-  computed, onMounted, watch,
+  computed,
 } from 'vue';
 import { useStore } from 'vuex';
 
@@ -98,31 +98,18 @@ export default {
     const randomMeals = computed(() => state.randomMeals);
     const categoriesNameList = computed(() => state.categories.categoriesNameList);
     const recipesAroundTheWorld = computed(() => state.recipesAroundTheWorld);
-    const aroundResolve = computed(() => state.aroundResolve);
 
-    /* Bug
-      if the browser was hard refreshed, recipe around the world not updating / render
-      solution 1 (last solution) : add load button , to reload the data / render
-      stil finding ..
-    */
+    if (randomMeals.value?.length === 0) {
+      dispatch('updateRandomMeals');
+    }
 
-    onMounted(() => {
-      if (randomMeals.value?.length === 0) {
-        dispatch('updateRandomMeals');
-      }
+    if (recipesAroundTheWorld.value?.length === 0) {
+      dispatch('fetchGetAroundTheWorld');
+    }
 
-      if (recipesAroundTheWorld.value?.length === 0) {
-        dispatch('fetchGetAroundTheWorld');
-      }
-
-      if (categoriesNameList.value?.length === 0) {
-        dispatch('categories/fetchCategoriesList');
-      }
-    });
-
-    watch(recipesAroundTheWorld, (val, oldVal) => {
-      console.log(val, oldVal);
-    });
+    if (categoriesNameList.value?.length === 0) {
+      dispatch('categories/fetchCategoriesList');
+    }
 
     function updateRandomMeals() {
       dispatch('updateRandomMeals');
@@ -133,7 +120,6 @@ export default {
       updateRandomMeals,
       categoriesNameList,
       recipesAroundTheWorld,
-      aroundResolve,
     };
   },
 };
