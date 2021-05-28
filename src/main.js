@@ -6,7 +6,7 @@ import store from './store';
 
 import 'bootstrap/dist/js/bootstrap.bundle';
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles/custom.css';
+import './styles/custom.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 createApp(App)
