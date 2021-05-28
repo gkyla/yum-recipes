@@ -45,7 +45,6 @@ export default createStore({
 
     async fetchGetAroundTheWorld({ commit, state }) {
       state.aroundResolve = false;
-      const payload = [];
 
       const { data: countryList } = await axios.get(API_CONFIG.areaList);
       const countryListLength = countryList.meals.length - 1;
@@ -53,18 +52,18 @@ export default createStore({
         return Math.round(Math.floor(Math.random() * length));
       }
       const numbers = [generateRandomNumber(countryListLength), generateRandomNumber(countryListLength), generateRandomNumber(countryListLength)];
+      const requests = numbers.map((num) => axios.get(API_CONFIG.filterByArea(countryList.meals[num].strArea)));
+      const data = await Promise.all(requests);
 
-      numbers.forEach(async (num) => {
-        const { data: countryMeals } = await axios.get(API_CONFIG.filterByArea(countryList.meals[num].strArea));
-        console.log('terawait');
-        /* Create new object with the country name inside it  */
-        payload.push({
-          contry: countryList.meals[num].strArea,
+      const response = data.map((axiosRes, index) => {
+        const { data: countryMeals } = axiosRes;
+        return {
+          contry: countryList.meals[numbers[index]].strArea,
           meal: countryMeals.meals[generateRandomNumber(countryMeals.meals.length - 1)],
-        });
+        };
       });
 
-      commit('updateRecipesAroundTheWorld', payload);
+      commit('updateRecipesAroundTheWorld', response);
     },
 
     async fetchDefaultRecipes({ commit }) {
@@ -83,3 +82,14 @@ export default createStore({
     search,
   },
 });
+// const requests = numbers.map((num) => {
+//   const { data: countryMeals } = await axios.get(API_CONFIG.filterByArea(countryList.meals[num].strArea));
+
+//   console.log('terawait');
+//   /* Create new object with the country name inside it  */
+//   payload.push({
+//     contry: countryList.meals[num].strArea,
+//     meal: countryMeals.meals[generateRandomNumber(countryMeals.meals.length - 1)],
+//   });
+
+// });
