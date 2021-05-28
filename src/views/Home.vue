@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="container mt-2">
-      <div class="row justify-content-center" v-if="randomMeals">
+      <div class="row justify-content-center">
         <div class="col-sm-12 col-xl-9">
           <div class="row d-flex my-3">
             <div class="col-sm-12 col-md-9">
@@ -18,7 +18,10 @@
               </button>
             </div>
           </div>
-          <div class="row d-flex g-3 flex-md-column flex-lg-row">
+          <div
+            class="row d-flex g-3 flex-md-column flex-lg-row"
+            v-if="!randomIsLoading"
+          >
             <div class="col-sm-12 col-lg-8 d-flex justify-content-center">
               <card-preview
                 :meal="randomMeals[0]"
@@ -36,11 +39,19 @@
               </div>
             </div>
           </div>
+          <div v-if="randomIsLoading" class="mt-4">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
         </div>
         <div class="col-sm-12 col-xl-3 d-flex flex-column">
           <h1 class="fs-3 my-3 text-start">Categories</h1>
 
-          <ul class="list-group radius-10 shadow mt-2">
+          <ul
+            class="list-group radius-10 shadow mt-2"
+            v-if="categoriesNameList"
+          >
             <li
               class="list-group-item text-start"
               v-for="category in categoriesNameList"
@@ -56,7 +67,10 @@
     <section id="food-area-insight" class="bg-light shadow-sm mt-5 p-4">
       <div class="container p-0 p-md-3">
         <h1 class="fs-3 mb-4">Recipes Around the World</h1>
-        <div class="row d-flex justify-content-center g-4">
+        <div
+          class="row d-flex justify-content-center g-4"
+          v-if="!worldIsLoading"
+        >
           <div
             v-for="meal in recipesAroundTheWorld"
             class="col-sm-12 col-md-4"
@@ -70,6 +84,14 @@
               </div>
               <card-preview :meal="meal.meal"></card-preview>
             </div>
+          </div>
+        </div>
+        <div
+          class="row d-flex justify-content-center g-4"
+          v-if="worldIsLoading"
+        >
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
           </div>
         </div>
       </div>
@@ -97,7 +119,10 @@ export default {
     const { state, dispatch } = useStore();
     const randomMeals = computed(() => state.randomMeals);
     const categoriesNameList = computed(() => state.categories.categoriesNameList);
+    const categoriesIsLoading = computed(() => state.categories.categoriesIsLoading);
     const recipesAroundTheWorld = computed(() => state.recipesAroundTheWorld);
+    const randomIsLoading = computed(() => state.randomIsLoading);
+    const worldIsLoading = computed(() => state.worldIsLoading);
 
     if (randomMeals.value?.length === 0) {
       dispatch('updateRandomMeals');
@@ -107,7 +132,7 @@ export default {
       dispatch('fetchGetAroundTheWorld');
     }
 
-    if (categoriesNameList.value?.length === 0) {
+    if (!categoriesNameList.value) {
       dispatch('categories/fetchCategoriesList');
     }
 
@@ -120,6 +145,9 @@ export default {
       updateRandomMeals,
       categoriesNameList,
       recipesAroundTheWorld,
+      randomIsLoading,
+      worldIsLoading,
+      categoriesIsLoading,
     };
   },
 };

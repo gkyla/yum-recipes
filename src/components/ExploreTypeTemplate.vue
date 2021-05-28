@@ -98,6 +98,16 @@
               Not Found
             </li>
           </ul>
+          <!-- Loading state -->
+          <div class="list-group-item p-4 fs-4" v-if="loadingState.list">
+            <div
+              class="spinner-border"
+              style="width: 3rem; height: 3rem"
+              role="status"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -134,7 +144,10 @@
           />
         </div>
 
-        <div class="row g-3 pt-2" v-if="resultMealsReadyAndNotTypeAll">
+        <div
+          class="row g-3 pt-2"
+          v-if="resultMealsReadyAndNotTypeAll && !loadingState.meals"
+        >
           <div
             class="col-sm-12 col-md-6 col-lg-4"
             :class="{ 'col-xl-3': !options.list }"
@@ -144,7 +157,10 @@
             <card-preview :meal="meal"></card-preview>
           </div>
         </div>
-        <div class="row g-3 pt-2" v-if="paramsTypeIsAll">
+        <div
+          class="row g-3 pt-2"
+          v-if="paramsTypeIsAll && localData.defaultRecipes"
+        >
           <div
             class="col-sm-12 col-md-6 col-lg-4"
             :class="{ 'col-xl-3': !options.list }"
@@ -155,13 +171,36 @@
           </div>
         </div>
 
+        <!-- Handle Loading State -->
+        <div class="row g-3 pt-2 justify-content-center">
+          <div
+            class="spinner-border mt-4"
+            style="width: 3rem; height: 3rem"
+            role="status"
+            v-if="loadingState.meals && $route.params.type !== 'all'"
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <div
+            class="spinner-border mt-4"
+            style="width: 3rem; height: 3rem"
+            role="status"
+            v-if="defaultIsLoading && !localData.meals && paramsTypeIsAll"
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-sm-12">
             <Pagination
               v-if="resultMealsReadyAndNotTypeAll"
               :chunkedData="resultMeals"
             />
-            <Pagination v-else :chunkedData="defaultRecipes" />
+            <Pagination
+              v-if="!resultMealsReadyAndNotTypeAll && defaultRecipes"
+              :chunkedData="defaultRecipes"
+            />
           </div>
         </div>
       </div>
@@ -195,10 +234,12 @@ export default {
       type: Array,
     },
     resultMeals: {
-      type: Array,
       required: true,
     },
     options: {
+      type: Object,
+    },
+    loadingState: {
       type: Object,
     },
   },
@@ -210,6 +251,7 @@ export default {
     const paramsType = computed(() => route.params.type);
     const paramsPage = computed(() => route.params.page);
     const defaultRecipes = computed(() => state.defaultRecipes);
+    const defaultIsLoading = computed(() => state.defaultIsLoading);
 
     const localData = reactive({
       list: props.typeList,
@@ -287,6 +329,7 @@ export default {
       searchSomeMeals,
       toggleList,
       doNothing,
+      defaultIsLoading,
     };
   },
 };

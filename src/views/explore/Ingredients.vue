@@ -6,6 +6,7 @@
     @fetchResult="fetchResult"
     @searchSomeList="searchSomeList"
     :options="{ list: true }"
+    :loadingState="ingredientsIsLoading"
   >
   </explore-type-template>
 </template>
@@ -27,8 +28,9 @@ export default {
 
     const ingredientMeals = computed(() => state.ingredients.ingredientsMeals);
     const ingredientsList = computed(() => state.ingredients.ingredientsList);
+    const ingredientsIsLoading = computed(() => state.ingredients.ingredientsIsLoading);
 
-    if (ingredientsList.value.length === 0) {
+    if (!ingredientsList.value) {
       dispatch('ingredients/fetchIngredientList');
     }
 
@@ -48,6 +50,7 @@ export default {
       ingredientsList,
       fetchResult,
       searchSomeList,
+      ingredientsIsLoading,
     };
   },
 

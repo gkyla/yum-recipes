@@ -4,7 +4,8 @@
     :typeList="firstLetterList"
     :resultMeals="firstLetterMeals"
     @fetchResult="fetchResult"
-    :options="{list: true}"
+    :options="{ list: true }"
+    :loadingState="firstLetterIsLoading"
   >
   </explore-type-template>
 </template>
@@ -26,8 +27,9 @@ export default {
 
     const firstLetterMeals = computed(() => state.firstLetter.firstLetterMeals);
     const firstLetterList = computed(() => state.firstLetter.firstLetterList);
+    const firstLetterIsLoading = computed(() => state.firstLetter.firstLetterIsLoading);
 
-    if (firstLetterList.value.length === 0) {
+    if (!firstLetterList.value) {
       dispatch('firstLetter/fetchFirstLetterList');
     }
 
@@ -46,6 +48,7 @@ export default {
       firstLetterMeals,
       firstLetterList,
       fetchResult,
+      firstLetterIsLoading,
     };
   },
 

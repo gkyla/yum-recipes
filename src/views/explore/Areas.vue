@@ -6,6 +6,7 @@
     @fetchResult="fetchResult"
     @searchSomeList="searchSomeList"
     :options="{ list: true }"
+    :loadingState="areaIsLoading"
   >
   </explore-type-template>
 </template>
@@ -27,8 +28,9 @@ export default {
 
     const areaMeals = computed(() => state.areas.areaMeals);
     const areaList = computed(() => state.areas.areaList);
+    const areaIsLoading = computed(() => state.areas.areaIsLoading);
 
-    if (areaList.value.length === 0) {
+    if (!areaList.value) {
       dispatch('areas/fetchAreaList');
     }
 
@@ -48,6 +50,7 @@ export default {
       areaList,
       fetchResult,
       searchSomeList,
+      areaIsLoading,
     };
   },
 

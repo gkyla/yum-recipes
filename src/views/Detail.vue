@@ -1,5 +1,5 @@
 <template>
-  <div class="container my-4">
+  <div class="container my-4" v-if="!isLoading">
     <div class="row d-flex g-3">
       <div class="col-sm-12 col-lg-4 p-3 bg-white shadow-sm">
         <img
@@ -64,6 +64,11 @@
       </div>
     </div>
   </div>
+  <div v-if="isLoading" class="mt-4">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -75,10 +80,11 @@ import API_CONFIG from '../globals/config';
 export default {
   setup() {
     const route = useRoute();
-
     const meal = ref({});
+    const isLoading = ref(true);
 
     async function getDetail() {
+      isLoading.value = true;
       const { data } = await axios.get(API_CONFIG.detail(route.params.id));
       const [dataMeals] = data.meals;
 
@@ -115,11 +121,12 @@ export default {
       }
 
       meal.value = res;
+      isLoading.value = false;
     }
 
     getDetail();
 
-    return { meal };
+    return { meal, isLoading };
   },
 };
 </script>

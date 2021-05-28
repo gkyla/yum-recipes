@@ -6,9 +6,12 @@ import API_CONFIG from '../../globals/config';
 const search = {
   namespaced: true,
   state: {
-    searchMeals: [],
+    searchMeals: null,
     searchName: '',
     isNotFound: false,
+    searchIsLoading: {
+      meals: true,
+    },
   },
   mutations: {
     setSearchMeals(state, payload) {
@@ -20,9 +23,14 @@ const search = {
     setIsNotFound(state, status) {
       state.isNotFound = status;
     },
+    setSearchsStatus(state, loading) {
+      state.searchIsLoading.meals = loading;
+    },
   },
   actions: {
     async fetchSearchMeals({ commit }, { name, pageOpt }) {
+      commit('setSearchsStatus', true);
+
       router.push({ name: 'ExploreSearch', params: { page: pageOpt || 1, type: name.toLowerCase() } });
 
       const { data } = await axios.get(API_CONFIG.searchByName(name));
@@ -34,6 +42,8 @@ const search = {
       } else {
         commit('setIsNotFound', true);
       }
+
+      commit('setSearchsStatus', false);
     },
   },
 };

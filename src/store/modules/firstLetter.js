@@ -6,8 +6,12 @@ import API_CONFIG from '../../globals/config';
 const firstLetter = {
   namespaced: true,
   state: {
-    firstLetterMeals: [],
-    firstLetterList: [],
+    firstLetterMeals: null,
+    firstLetterList: null,
+    firstLetterIsLoading: {
+      meals: true,
+      list: true,
+    },
   },
   mutations: {
     setFirstLetterMeals(state, payload) {
@@ -17,19 +21,36 @@ const firstLetter = {
     setFirstLetterList(state, payload) {
       state.firstLetterList = payload;
     },
+    setFirstLetterStatus(state, { type, loading }) {
+      switch (type) {
+        case 'meals':
+          state.firstLetterIsLoading.meals = loading;
+          break;
+        case 'list':
+          state.firstLetterIsLoading.list = loading;
+          break;
+        default:
+      }
+    },
   },
   actions: {
     async fetchFirstLetterList({ commit }) {
+      commit('setFirstLetterStatus', { type: 'list', loading: true });
       const payload = createAlphabet();
       commit('setFirstLetterList', payload);
+      commit('setFirstLetterStatus', { type: 'list', loading: false });
     },
 
     async fetchFirstLetterMeals({ commit }, { letter, pageOpt }) {
+      commit('setFirstLetterStatus', { type: 'meals', loading: true });
+
       router.push({ params: { page: pageOpt || 1, type: letter.toLowerCase() } });
       const { data } = await axios.get(API_CONFIG.listMealsByFirstLetter(letter));
       const formatted = data.meals.map((meal) => createFormattedMealObject(meal));
       const payload = sliceIntoChunks(formatted, 9);
+
       commit('setFirstLetterMeals', payload);
+      commit('setFirstLetterStatus', { type: 'meals', loading: false });
     },
   },
 };

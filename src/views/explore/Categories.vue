@@ -6,6 +6,7 @@
     @fetchResult="fetchResult"
     @searchSomeList="searchSomeList"
     :options="{ list: true }"
+    :loadingState="categoriesIsLoading"
   >
   </explore-type-template>
 </template>
@@ -28,9 +29,10 @@ export default {
 
     const categoryMeals = computed(() => state.categories.categoryMeals);
     const categoriesNameList = computed(() => state.categories.categoriesNameList);
+    const categoriesIsLoading = computed(() => state.categories.categoriesIsLoading);
 
     /* Initial Fetch when first time coming to category page (if available) */
-    if (categoriesNameList.value.length === 0) {
+    if (!categoriesNameList.value) {
       dispatch('categories/fetchCategoriesList');
     }
 
@@ -56,6 +58,7 @@ export default {
       fetchResult,
       categoryMeals,
       searchSomeList,
+      categoriesIsLoading,
     };
   },
 

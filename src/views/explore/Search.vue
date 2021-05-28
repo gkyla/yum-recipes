@@ -4,7 +4,8 @@
     type="Search"
     :resultMeals="searchMeals"
     @fetchResult="fetchResult"
-    :options="{list: false}"
+    :options="{ list: false }"
+    :loadingState="searchIsLoading"
   ></explore-type-template>
   <div v-if="isNotFound === true">
     <h2>Not Found brader</h2>
@@ -29,6 +30,7 @@ export default {
     const searchName = computed(() => state.search.searchName);
     const searchMeals = computed(() => state.search.searchMeals);
     const isNotFound = computed(() => state.search.isNotFound);
+    const searchIsLoading = computed(() => state.search.searchIsLoading);
 
     function fetchResult(search) {
       console.log(search);
@@ -46,7 +48,9 @@ export default {
       });
     }
 
-    return { searchMeals, fetchResult, isNotFound };
+    return {
+      searchMeals, fetchResult, isNotFound, searchIsLoading,
+    };
   },
 };
 </script>

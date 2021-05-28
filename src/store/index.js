@@ -13,7 +13,10 @@ export default createStore({
     randomMeals: [],
     recipesAroundTheWorld: [],
     aroundResolve: false,
-    defaultRecipes: [],
+    defaultRecipes: null /* Expected [] when data arrived */,
+    randomIsLoading: true,
+    worldIsLoading: true,
+    defaultIsLoading: true,
   },
   mutations: {
     updateRandomMeals(state, payload) {
@@ -26,10 +29,25 @@ export default createStore({
     setDefaultRecipes(state, payload) {
       state.defaultRecipes = payload;
     },
-
+    setLoadingStatus(state, { type, loading }) {
+      switch (type) {
+        case 'random':
+          state.randomIsLoading = loading;
+          break;
+        case 'world':
+          state.worldIsLoading = loading;
+          break;
+        case 'default':
+          state.defaultIsLoading = loading;
+          break;
+        default:
+          /* Quit */
+      }
+    },
   },
   actions: {
     async updateRandomMeals({ commit }) {
+      commit('setLoadingStatus', { type: 'random', loading: true });
       function generateRandom() {
         return axios.get(API_CONFIG.random);
       }
@@ -41,9 +59,11 @@ export default createStore({
         return createFormattedMealObject(meal);
       });
       commit('updateRandomMeals', payload);
+      commit('setLoadingStatus', { type: 'random', loading: false });
     },
 
     async fetchGetAroundTheWorld({ commit, state }) {
+      commit('setLoadingStatus', { type: 'world', loading: true });
       state.aroundResolve = false;
 
       const { data: countryList } = await axios.get(API_CONFIG.areaList);
@@ -64,14 +84,19 @@ export default createStore({
       });
 
       commit('updateRecipesAroundTheWorld', data);
+      commit('setLoadingStatus', { type: 'world', loading: false });
     },
 
     async fetchDefaultRecipes({ commit }) {
+      commit('setLoadingStatus', { type: 'default', loading: true });
+      commit('setDefaultRecipes', null);
+
       const { data } = await axios.get(API_CONFIG.showAll);
       const formatted = data.meals.map((meal) => createFormattedMealObject(meal));
       const payload = sliceIntoChunks(formatted, 9);
 
       commit('setDefaultRecipes', payload);
+      commit('setLoadingStatus', { type: 'default', loading: false });
     },
   },
   modules: {
