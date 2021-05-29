@@ -16,7 +16,6 @@ const firstLetter = {
   mutations: {
     setFirstLetterMeals(state, payload) {
       state.firstLetterMeals = payload;
-      console.log(state.ingredientsMeals, 'payload dari mutations', payload);
     },
     setFirstLetterList(state, payload) {
       state.firstLetterList = payload;
