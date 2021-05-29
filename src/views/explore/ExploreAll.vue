@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="row g-3">
-      <h1 class="fs-3 mb-4 text-start">Explore By</h1>
+    <div class="row g-3 mb-4">
+      <h1 class="fs-3 mb-2 text-start">Explore By</h1>
 
       <div
         class="col-sm-12 col-md-6 col-lg-4"

@@ -45,21 +45,40 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-12 col-xl-3 d-flex flex-column">
-          <h1 class="fs-3 my-3 text-start">Categories</h1>
 
-          <ul
-            class="list-group radius-10 shadow mt-2"
-            v-if="categoriesNameList"
+        <div class="col-sm-12 col-xl-3 d-flex mt-4 flex-column">
+          <div class="row">
+            <h1 class="fs-3 text-start">Explore</h1>
+          </div>
+          <div
+            class="row text-start mt-2 h-100 d-flex"
+            id="explore-home-parent"
           >
-            <li
-              class="list-group-item text-start"
-              v-for="category in categoriesNameList"
-              :key="category.strCategory"
+            <div
+              v-for="explore in exploreHome"
+              :key="explore.name"
+              :id="`ex-${explore.name}`"
+              class="explore-home bg-white shadow p-2 radius-10 col-sm-12 col-md-6 col-xl-12"
             >
-              {{ category.strCategory }}
-            </li>
-          </ul>
+              <div class="row">
+                <div class="col-md-7 col-xl-6 my-2 my-lg-0">
+                  <img
+                    :src="explore.img"
+                    class="explore-home-img"
+                    alt="Categories picture"
+                  />
+                </div>
+                <div class="col-md-5 col-xl-6">
+                  <router-link
+                    :to="`/explore/${explore.path()}`"
+                    class="fs-5 text-decoration-none text-dark"
+                    >{{ explore.name }}</router-link
+                  >
+                  <p id="explore-information">{{ explore.information }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -103,9 +122,11 @@
 
 // @ is an alias to /src
 import CardPreview from '@/components/CardPreview.vue';
+import AreasImg from '@/assets/explore/areas.jpg';
+import SearchImg from '@/assets/explore/search.jpg';
 
 import {
-  computed,
+  computed, ref,
 } from 'vue';
 import { useStore } from 'vuex';
 
@@ -123,6 +144,39 @@ export default {
     const recipesAroundTheWorld = computed(() => state.recipesAroundTheWorld);
     const randomIsLoading = computed(() => state.randomIsLoading);
     const worldIsLoading = computed(() => state.worldIsLoading);
+
+    const exploreHome = ref([
+      {
+        name: 'Categories',
+        img: 'https://www.themealdb.com/images/category/beef.png',
+        path: () => `${'Categories'.toLowerCase()}/all/1`,
+        information: 'Search based on categories',
+      },
+      {
+        name: 'Ingredients',
+        img: 'https://www.themealdb.com/images/ingredients/Broccoli.png',
+        path: () => `${'Ingredients'.toLowerCase()}/all/1`,
+        information: 'There is around 573 Ingredients !',
+      },
+      {
+        name: 'First Letter',
+        img: 'https://www.themealdb.com/images/media/meals/qxytrx1511304021.jpg',
+        path: () => `${'First Letter'.toLowerCase().split(' ').join('-')}/all/1`,
+        information: 'Find it from A to Z',
+      },
+      {
+        name: 'Areas',
+        img: AreasImg,
+        path: () => `${'Areas'.toLowerCase()}/all/1`,
+        information: 'All around the world',
+      },
+      {
+        name: 'Search',
+        img: SearchImg,
+        path: () => `${'Search'.toLowerCase()}/all/1`,
+        information: 'Find based on your needs',
+      },
+    ]);
 
     if (randomMeals.value?.length === 0) {
       dispatch('updateRandomMeals');
@@ -148,12 +202,24 @@ export default {
       randomIsLoading,
       worldIsLoading,
       categoriesIsLoading,
+      exploreHome,
     };
   },
 };
 </script>
 
 <style>
+/* w-100 radius-10 h-100 object-fit */
+
+#explore-information {
+  font-size: 0.85em;
+}
+
+#explore-home-parent > div {
+  margin-bottom: 10px;
+  border-left: 4px solid #ffd369;
+}
+
 .card {
   height: 100% !important;
   overflow: hidden;
@@ -166,4 +232,27 @@ export default {
 #food-area-insight {
   min-height: 400px;
 }
+
+.explore-home-img {
+  width: 100%;
+  border-radius: 10px;
+  height: 140px;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (min-width: 992px) {
+  .explore-home-img {
+    height: 100px;
+  }
+}
+
+/* @media (min-width: 1200px) {
+  #explore-home-parent > div > img {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+  }
+} */
 </style>

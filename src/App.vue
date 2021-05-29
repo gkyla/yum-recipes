@@ -53,6 +53,10 @@ body {
   background-color: #fbf8f8 !important;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 *::-webkit-scrollbar {
   width: 11px;
 }
