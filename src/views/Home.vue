@@ -155,7 +155,7 @@ export default {
         name: 'Ingredients',
         img: 'https://www.themealdb.com/images/ingredients/Broccoli.png',
         path: () => `${'Ingredients'.toLowerCase()}/all/1`,
-        information: 'There is around 573 Ingredients !',
+        information: 'There are around 573 Ingredients !',
       },
       {
         name: 'First Letter',
