@@ -5,7 +5,6 @@ import router from './router';
 import store from './store';
 
 import 'bootstrap/dist/js/bootstrap.bundle';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/custom.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 

@@ -53,8 +53,11 @@
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link rounded-pill" :to="{ name: 'About' }"
-              >About</router-link
+            <router-link
+              class="nav-link rounded-pill"
+              title="On Development"
+              :to="{ name: 'Favorite' }"
+              >Favorite</router-link
             >
           </li>
         </ul>
@@ -84,11 +87,6 @@ export default {
 </script>
 
 <style lang="scss">
-.explore {
-  // background-color: #eeeeee;
-  // flex-grow: 2;
-}
-
 #input-navbar {
   width: 100% !important;
   // max-width: 100% !important;

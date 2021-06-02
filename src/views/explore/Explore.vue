@@ -22,10 +22,13 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Categories, areas -->
-  <router-view></router-view>
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+  </div>
 </template>
 
 <script>
@@ -37,6 +40,7 @@ import { useStore } from 'vuex';
 export default {
   components: {
     SearchBar,
+
   },
   setup() {
     const { state } = useStore();

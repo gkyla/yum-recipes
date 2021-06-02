@@ -1,6 +1,11 @@
 <template>
   <the-navbar></the-navbar>
-  <router-view />
+  <router-view v-slot="{ Component }">
+    <transition name="fade" mode="out-in" appear>
+      <component :is="Component" />
+    </transition>
+  </router-view>
+
   <Footer />
 </template>
 
@@ -30,6 +35,21 @@ export default {
   font-family: "Fira Sans", sans-serif;
 
 */
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: 0.2s ease-in-out all;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
 
 #app {
   // font-family: "Mulish", sans-serif;

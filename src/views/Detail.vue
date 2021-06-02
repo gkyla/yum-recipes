@@ -1,6 +1,11 @@
 <template>
-  <div class="container my-4" v-if="!isLoading">
-    <div class="row d-flex g-3">
+  <div class="container my-4">
+    <div v-if="isLoading" class="mt-4 text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div class="row d-flex g-3" v-if="!isLoading">
       <div class="col-sm-12 col-lg-4 p-3 bg-white shadow-sm">
         <img
           :src="meal.strMealThumb"
@@ -62,11 +67,6 @@
           <h3 class="fs-4" v-else>Error : Video not found</h3>
         </div>
       </div>
-    </div>
-  </div>
-  <div v-if="isLoading" class="mt-4">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
     </div>
   </div>
 </template>

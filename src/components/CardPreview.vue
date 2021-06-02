@@ -3,18 +3,22 @@
     v-if="meal"
     class="card position-relative shadow radius-10 overflow-hidden"
   >
-    <img
-      v-if="meal.strMealThumb"
-      :src="meal.strMealThumb"
-      class="card-img-top"
-    />
-    <img v-else src="@/assets/logo.png" class="card-img-top" />
     <div
-      class="card-body text-start position-absolute start-0 bottom-0 p-2 p-md-3 bg-white end-0 shadow-sm rounded-card-body card-border"
+      class="bg-white position-relative overflow-hidden rounded-10 w-100 p-2"
+    >
+      <img
+        v-if="meal.strMealThumb"
+        :src="meal.strMealThumb"
+        class="w-100 radius-10"
+      />
+      <img v-else src="@/assets/logo.png" class="card-img-top" />
+    </div>
+    <div
+      class="card-body text-start position-absolute start-0 bottom-0 bg-white end-0 shadow-sm card-border"
     >
       <router-link
         :to="{ name: 'Detail', params: { id: meal.idMeal } }"
-        class="text-decoration-none text-secondary fs-4 card-title d-block"
+        class="text-decoration-none text-secondary fs-5 card-title d-block"
       >
         <p class="text-truncate m-0">{{ meal.strMeal }}</p>
       </router-link>
@@ -58,18 +62,16 @@ export default {
       type: Object,
     },
   },
-  setup(props) {
-    /* Buat tag agar cuman 3 bisa nya kalo di home, kalo di detail munculin semua */
 
-    return {
-    //   handleImage,
-    };
-  },
 };
 </script>
 
 <style>
 .radius-10 {
+  border-radius: 10px !important;
+}
+
+.rounded-10 {
   border-radius: 10px !important;
 }
 

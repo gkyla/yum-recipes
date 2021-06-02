@@ -1,25 +1,23 @@
 <template>
-  <div class="container">
-    <div class="row g-3 mb-4">
-      <h1 class="fs-3 mb-2 text-start">Explore By</h1>
+  <div class="row g-3 mb-4">
+    <h1 class="fs-3 mb-2 text-start">Explore By</h1>
 
-      <div
-        class="col-sm-12 col-md-6 col-lg-4"
-        v-for="link in exploreLinks"
-        :key="link.name"
+    <div
+      class="col-sm-12 col-md-6 col-lg-4"
+      v-for="link in exploreLinks"
+      :key="link.name"
+    >
+      <router-link
+        :to="`/explore/${link.path()}`"
+        class="button-explore-list shadow"
+        :style="{ backgroundImage: `url(${link.img})`, ...link.styles }"
       >
-        <router-link
-          :to="`/explore/${link.path()}`"
-          class="button-explore-list shadow"
-          :style="{ backgroundImage: `url(${link.img})`, ...link.styles }"
+        <h1
+          class="fs-5 text-start shadow text-secondary m-2 bg-warning rounded-pill py-1 px-3"
         >
-          <h1
-            class="fs-5 text-start shadow text-secondary m-2 bg-warning rounded-pill py-1 px-3"
-          >
-            {{ link.name }}
-          </h1>
-        </router-link>
-      </div>
+          {{ link.name }}
+        </h1>
+      </router-link>
     </div>
   </div>
 </template>

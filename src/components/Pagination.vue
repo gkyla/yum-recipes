@@ -3,17 +3,18 @@
     <ul class="pagination my-4">
       <li class="page-item">
         <router-link
-          class="page-link"
+          class="page-link bg-dark rounded-3 text-white"
           :to="`/explore/${subExplore}/${type}/${
             +page !== 1 ? +page - 1 : +page
           }`"
-          >Previous
+        >
+          Previous
         </router-link>
       </li>
       <li class="page-item" v-for="number in chunkedData.length" :key="number">
         <router-link
           v-if="chunkedData.length"
-          class="page-link"
+          class="page-link pagination-number bg-dark rounded-3 text-white"
           :to="`/explore/${subExplore}/${type}/${number}`"
           >{{ number }}</router-link
         >
@@ -32,12 +33,13 @@
 
       <li class="page-item">
         <router-link
-          class="page-link"
+          class="page-link bg-dark rounded-3 text-white"
           :to="`/explore/${subExplore}/${type}/${
             +page < chunkedData.length ? +page + 1 : +page
           }`"
-          >Next</router-link
         >
+          Next
+        </router-link>
       </li>
     </ul>
   </nav>
@@ -73,5 +75,10 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.pagination-number {
+  &.router-link-exact-active {
+    text-decoration: underline;
+  }
+}
 </style>

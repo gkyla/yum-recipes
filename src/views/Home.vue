@@ -19,17 +19,19 @@
             </div>
           </div>
           <div
-            class="row d-flex g-3 flex-md-column flex-lg-row"
+            class="row d-flex g-3 flex-md-column flex-lg-row h-100"
             v-if="!randomIsLoading"
           >
-            <div class="col-sm-12 col-lg-8 d-flex justify-content-center">
+            <div
+              class="col-sm-12 col-lg-8 d-flex justify-content-center pb-0 pb-lg-5"
+            >
               <card-preview
                 :meal="randomMeals[0]"
                 :options="{ instructions: true }"
               ></card-preview>
             </div>
-            <div class="col-sm-12 col-lg-4 d-flex flex-column rounded-3">
-              <div class="row g-3 d-flex">
+            <div class="col-sm-12 col-lg-4 d-flex flex-column rounded-3 pb-4">
+              <div class="row g-4 d-flex h-100">
                 <div class="col-sm-12 col-md-6 col-lg-12">
                   <card-preview :meal="randomMeals[1]"></card-preview>
                 </div>
@@ -46,25 +48,22 @@
           </div>
         </div>
 
-        <div class="col-sm-12 col-xl-3 d-flex mt-4 flex-column">
-          <div class="row">
-            <h1 class="fs-3 text-start">Explore</h1>
+        <div class="col-sm-12 col-xl-3 d-flex mt-3 flex-column">
+          <div class="row mb-2 mt-5 mt-md-0">
+            <h1 class="fs-3 text-start pt-4 pt-md-0">Explore</h1>
           </div>
-          <div
-            class="row text-start mt-2 h-100 d-flex"
-            id="explore-home-parent"
-          >
+          <!--  -->
+          <div class="text-start mt-2 h-100" id="explore-home-parent">
             <div
               v-for="explore in exploreHome"
               :key="explore.name"
-              :id="`ex-${explore.name}`"
-              class="explore-home bg-white shadow p-2 radius-10 col-sm-12 col-md-6 col-xl-12"
+              class="explore-home bg-white shadow p-2 radius-10"
             >
               <div class="row">
                 <div class="col-md-7 col-xl-6 my-2 my-lg-0">
                   <img
                     :src="explore.img"
-                    class="explore-home-img"
+                    class="explore-home-img shadow-sm"
                     alt="Categories picture"
                   />
                 </div>
@@ -84,7 +83,7 @@
     </div>
 
     <section id="food-area-insight" class="bg-light shadow-sm mt-5 p-4">
-      <div class="container p-0 p-md-3">
+      <div class="container p-0 p-lg-3">
         <h1 class="fs-3 mb-4">Recipes Around the World</h1>
         <div
           class="row d-flex justify-content-center g-4"
@@ -156,7 +155,7 @@ export default {
         name: 'Ingredients',
         img: 'https://www.themealdb.com/images/ingredients/Broccoli.png',
         path: () => `${'Ingredients'.toLowerCase()}/all/1`,
-        information: 'There is around 573 Ingredients !',
+        information: 'There are around 573 Ingredients !',
       },
       {
         name: 'First Letter',
@@ -216,8 +215,15 @@ export default {
 }
 
 #explore-home-parent > div {
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  padding: 5px;
   border-left: 4px solid #ffd369;
+}
+
+#explore-home-parent {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
 }
 
 .card {
@@ -236,7 +242,7 @@ export default {
 .explore-home-img {
   width: 100%;
   border-radius: 10px;
-  height: 140px;
+  height: 150px;
   object-fit: cover;
   object-position: center;
 }
@@ -245,14 +251,22 @@ export default {
   .explore-home-img {
     height: 100px;
   }
+
+  #explore-home-parent {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-/* @media (min-width: 1200px) {
-  #explore-home-parent > div > img {
+@media (min-width: 1200px) {
+  /* #explore-home-parent > div > img {
     width: 100%;
     max-width: 100%;
     height: 100%;
     max-height: 100%;
+  } */
+
+  #explore-home-parent {
+    grid-template-columns: 1fr;
   }
-} */
+}
 </style>
