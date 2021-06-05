@@ -6,7 +6,11 @@ import ingredients from './modules/ingredients';
 import firstLetter from './modules/firstLetter';
 import areas from './modules/areas';
 import search from './modules/search';
-import { createFormattedMealObject, sliceIntoChunks } from '../utils';
+import { createFormattedMealObject, sliceIntoChunks, generateRandomNumber } from '../utils';
+
+function generateRandom() {
+  return axios.get(API_CONFIG.random);
+}
 
 export default createStore({
   state: {
@@ -48,9 +52,6 @@ export default createStore({
   actions: {
     async updateRandomMeals({ commit }) {
       commit('setLoadingStatus', { type: 'random', loading: true });
-      function generateRandom() {
-        return axios.get(API_CONFIG.random);
-      }
 
       const mealRandoms = await Promise.all([generateRandom(), generateRandom(), generateRandom()]);
       const payload = mealRandoms.map((mealObj) => {
@@ -68,9 +69,7 @@ export default createStore({
 
       const { data: countryList } = await axios.get(API_CONFIG.areaList);
       const countryListLength = countryList.meals.length - 1;
-      function generateRandomNumber(length) {
-        return Math.round(Math.floor(Math.random() * length));
-      }
+
       const numbers = [generateRandomNumber(countryListLength), generateRandomNumber(countryListLength), generateRandomNumber(countryListLength)];
       const requests = numbers.map((num) => axios.get(API_CONFIG.filterByArea(countryList.meals[num].strArea)));
       const response = await Promise.all(requests);
