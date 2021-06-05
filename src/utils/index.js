@@ -33,4 +33,8 @@ export function createAlphabet() {
   return result;
 }
 
+export function generateRandomNumber(length) {
+  return Math.round(Math.floor(Math.random() * length));
+}
+
 export const a = null;
