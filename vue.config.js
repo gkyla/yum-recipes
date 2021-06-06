@@ -18,13 +18,11 @@ module.exports = {
     msTileColor: '#393e46',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black',
-    name: "yum-recipes",
+    name: 'yum-recipes',
     workboxPluginMode: 'InjectManifest',
     workboxOptions: {
-      // swSrc is required in InjectManifest mode.
       swSrc: 'src/sw.js',
       swDest: 'sw.js',
-      // ...other Workbox options...
     },
   },
 };
